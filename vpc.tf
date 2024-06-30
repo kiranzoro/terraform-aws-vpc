@@ -1,3 +1,4 @@
+# VPC Creation
 resource "aws_vpc" "main" {
   cidr_block       = var.vpc_cidr
   instance_tenancy = "default"
@@ -9,6 +10,7 @@ resource "aws_vpc" "main" {
 
 }
 
+# Internet Gateway
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
 
@@ -19,6 +21,7 @@ resource "aws_internet_gateway" "gw" {
   )
 }
 
+#Public Subnet
 resource "aws_subnet" "public" {
     count = length(var.public_subnet_cidrs)
   vpc_id     = aws_vpc.main.id
@@ -32,6 +35,7 @@ resource "aws_subnet" "public" {
   )
 }
 
+# Private Subnet
 resource "aws_subnet" "private" {
     count = length(var.private_subnet_cidrs)
   vpc_id     = aws_vpc.main.id
@@ -44,6 +48,7 @@ resource "aws_subnet" "private" {
   )
 }
 
+#Database Subnet
 resource "aws_subnet" "database" {
     count = length(var.database_subnet_cidrs)
   vpc_id     = aws_vpc.main.id
@@ -56,12 +61,14 @@ resource "aws_subnet" "database" {
   )
 }
 
+# Elastic IP
 resource "aws_eip" "nat" {
   domain   = "vpc"
 
   tags = {Name = local.resource_name}
 }
 
+# Nat Gateway
 resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat.id
   subnet_id     = aws_subnet.public[0].id
