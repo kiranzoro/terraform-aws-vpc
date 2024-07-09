@@ -47,6 +47,8 @@ variable "public_subnet_cidr_tags" {
     default= {}
 }
 
+
+# private subnet
 variable "private_subnet_cidrs" {
     type = list
      validation {
@@ -59,6 +61,8 @@ variable "private_subnet_cidr_tags" {
     default= {}
 }
 
+
+# Database subnet
 variable "database_subnet_cidrs" {
     type = list
      validation {
@@ -71,6 +75,8 @@ variable "database_subnet_cidr_tags" {
     default= {}
 }
 
+
+# nat gatway tags
 variable "nat_gateway_tags" {
     type = map
     default= {}
